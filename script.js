@@ -6,21 +6,22 @@ const showFormNav = document.getElementById('show-form');
 const checkbox = document.getElementById('forSale');
 const priceInput = document.getElementById('price');
 const searchBar = document.getElementById('search-bar');
+const imageFileInput = document.getElementById('imageFile');
 
 // Lightbox elements
 const lightbox = document.getElementById('lightbox');
-const lbImage = document.getElementById('lightbox-image');
-const lbTitle = document.getElementById('lightbox-title');
-const lbAuthor = document.getElementById('lightbox-author');
-const lbDate = document.getElementById('lightbox-date');
-const lbStory = document.getElementById('lightbox-story');
-const lbPrice = document.getElementById('lightbox-price');
-const lbLink = document.getElementById('lightbox-link');
-const lbClose = document.getElementById('close-lightbox');
+const lbImage = document.getElementById('lb-image');
+const lbTitle = document.getElementById('lb-title');
+const lbAuthor = document.getElementById('lb-author');
+const lbDate = document.getElementById('lb-date');
+const lbStory = document.getElementById('lb-story');
+const lbPrice = document.getElementById('lb-price');
+const lbLink = document.getElementById('lb-link');
+const backButton = document.getElementById('back-button');
 
 let creations = JSON.parse(localStorage.getItem('creations')) || [];
 
-// Afficher/masquer le formulaire
+// Toggle formulaire
 function toggleForm() {
   formSection.classList.toggle('hidden');
   window.location.hash = "#form-section";
@@ -28,13 +29,13 @@ function toggleForm() {
 revealBtn.addEventListener('click', toggleForm);
 showFormNav.addEventListener('click', toggleForm);
 
-// Activer le champ prix si "à vendre" est coché
+// Activer prix
 checkbox.addEventListener('change', () => {
   priceInput.disabled = !checkbox.checked;
   if (!checkbox.checked) priceInput.value = "";
 });
 
-// Afficher les créations
+// Afficher créations
 function displayCreations(filtered = creations) {
   container.innerHTML = '';
   if (filtered.length === 0) {
@@ -42,40 +43,27 @@ function displayCreations(filtered = creations) {
     return;
   }
 
-  filtered.forEach((item, index) => {
+  filtered.forEach(item => {
     const card = document.createElement('div');
     card.classList.add('creation-card');
     card.innerHTML = `
       <img src="${item.image}" alt="${item.title}">
       <h3>${item.title}</h3>
+      <p><strong>${item.author}</strong></p>
+      <p>${item.date}</p>
       <p>${item.story}</p>
       ${item.forSale ? `<p class="price">À vendre : ${item.price} €</p>` : ''}
     `;
+    card.addEventListener('click', () => openLightbox(item));
     container.appendChild(card);
-
-    // Clic sur la création pour ouvrir le lightbox
-    card.addEventListener('click', () => {
-      lbImage.src = item.image;
-      lbTitle.textContent = item.title;
-      lbAuthor.textContent = "Auteur : " + item.author;
-      lbDate.textContent = "Date : " + item.date;
-      lbStory.textContent = item.story;
-      lbPrice.textContent = item.forSale ? "Prix : " + item.price + " €" : "";
-      lbLink.href = item.link || "#";
-      lbLink.style.display = item.link ? "inline-block" : "none";
-
-      lightbox.classList.add('active');
-    });
   });
 }
 
-// Ajouter une création
-form.addEventListener('submit', (e) => {
+// Soumettre création
+form.addEventListener('submit', e => {
   e.preventDefault();
-
-  const file = document.getElementById('imageFile').files[0];
-  if (!file) return alert("Veuillez sélectionner une image.");
-
+  const file = imageFileInput.files[0];
+  if (!file) return alert("Sélectionnez une image");
   const reader = new FileReader();
   reader.onload = function(event) {
     const newCreation = {
@@ -83,7 +71,7 @@ form.addEventListener('submit', (e) => {
       author: form.author.value,
       date: form.date.value,
       story: form.story.value,
-      image: event.target.result, // image en base64
+      image: event.target.result,
       link: form.link.value,
       forSale: checkbox.checked,
       price: checkbox.checked ? form.price.value : null
@@ -93,11 +81,11 @@ form.addEventListener('submit', (e) => {
     form.reset();
     priceInput.disabled = true;
     displayCreations();
-  };
+  }
   reader.readAsDataURL(file);
 });
 
-// Recherche en direct
+// Recherche
 searchBar.addEventListener('input', () => {
   const term = searchBar.value.toLowerCase();
   const filtered = creations.filter(c =>
@@ -107,14 +95,21 @@ searchBar.addEventListener('input', () => {
   displayCreations(filtered);
 });
 
-// Fermer le lightbox
-lbClose.addEventListener('click', () => {
-  lightbox.classList.remove('active');
-});
+// Lightbox
+function openLightbox(item) {
+  lbImage.src = item.image;
+  lbTitle.textContent = item.title;
+  lbAuthor.textContent = "Auteur : " + item.author;
+  lbDate.textContent = "Date : " + item.date;
+  lbStory.textContent = item.story;
+  lbPrice.textContent = item.forSale ? "À vendre : " + item.price + " €" : "";
+  lbLink.style.display = item.link ? "inline" : "none";
+  lbLink.href = item.link;
+  lightbox.classList.remove('hidden');
+}
 
-// Fermer si clic en dehors du contenu
-lightbox.addEventListener('click', (e) => {
-  if (e.target === lightbox) lightbox.classList.remove('active');
+backButton.addEventListener('click', () => {
+  lightbox.classList.add('hidden');
 });
 
 displayCreations();
