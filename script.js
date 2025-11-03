@@ -5,6 +5,7 @@ const revealBtn = document.getElementById('btn-reveal-form');
 const showFormNav = document.getElementById('show-form');
 const checkbox = document.getElementById('forSale');
 const priceInput = document.getElementById('price');
+const emailInput = document.getElementById('email');
 const searchBar = document.getElementById('search-bar');
 const imageFileInput = document.getElementById('imageFile');
 
@@ -29,10 +30,14 @@ function toggleForm() {
 revealBtn.addEventListener('click', toggleForm);
 showFormNav.addEventListener('click', toggleForm);
 
-// Activer prix
+// Activer prix et email si "à vendre" est coché
 checkbox.addEventListener('change', () => {
   priceInput.disabled = !checkbox.checked;
-  if (!checkbox.checked) priceInput.value = "";
+  emailInput.disabled = !checkbox.checked;
+  if (!checkbox.checked) {
+    priceInput.value = "";
+    emailInput.value = "";
+  }
 });
 
 // Afficher créations
@@ -64,6 +69,7 @@ form.addEventListener('submit', e => {
   e.preventDefault();
   const file = imageFileInput.files[0];
   if (!file) return alert("Sélectionnez une image");
+
   const reader = new FileReader();
   reader.onload = function(event) {
     const newCreation = {
@@ -74,14 +80,16 @@ form.addEventListener('submit', e => {
       image: event.target.result,
       link: form.link.value,
       forSale: checkbox.checked,
-      price: checkbox.checked ? form.price.value : null
+      price: checkbox.checked ? form.price.value : null,
+      email: checkbox.checked ? emailInput.value : null
     };
     creations.push(newCreation);
     localStorage.setItem('creations', JSON.stringify(creations));
     form.reset();
     priceInput.disabled = true;
+    emailInput.disabled = true;
     displayCreations();
-  }
+  };
   reader.readAsDataURL(file);
 });
 
@@ -103,11 +111,21 @@ function openLightbox(item) {
   lbDate.textContent = "Date : " + item.date;
   lbStory.textContent = item.story;
   lbPrice.textContent = item.forSale ? "À vendre : " + item.price + " €" : "";
-  lbLink.style.display = item.link ? "inline" : "none";
-  lbLink.href = item.link;
+  if(item.forSale && item.email) {
+    lbLink.style.display = "inline-block";
+    lbLink.textContent = "Contacter le créateur";
+    lbLink.href = "mailto:" + item.email;
+  } else if(item.link) {
+    lbLink.style.display = "inline-block";
+    lbLink.textContent = "Découvrir l’artiste";
+    lbLink.href = item.link;
+  } else {
+    lbLink.style.display = "none";
+  }
   lightbox.classList.remove('hidden');
 }
 
+// Retour lightbox
 backButton.addEventListener('click', () => {
   lightbox.classList.add('hidden');
 });
