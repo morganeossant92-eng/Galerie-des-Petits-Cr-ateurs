@@ -21,8 +21,8 @@
   <section id="about">
     <div class="intro">
       <div class="intro-left">
-        <img src="https://via.placeholder.com/200x250" alt="Exemple œuvre">La petite maison dans la forêt.jpg
-        <img src="https://via.placeholder.com/200x250" alt="Peinture d’artiste">La place du matin.jpg
+        <img src="https://via.placeholder.com/200x250" alt="Exemple œuvre">
+        <img src="https://via.placeholder.com/200x250" alt="Exemple œuvre">
       </div>
       <div class="intro-right">
         <h2>Bienvenue dans la Galerie des Petits Créateurs</h2>
@@ -45,10 +45,10 @@
     <form id="creation-form">
       <label>Titre de l’œuvre :</label>
       <input type="text" name="title" required>
-      
+
       <label>Nom du créateur :</label>
       <input type="text" name="author" required>
-      
+
       <label>Date de création :</label>
       <input type="date" name="date" required>
 
@@ -75,6 +75,20 @@
     <input type="text" id="search-bar" placeholder="🔍 Rechercher une œuvre...">
     <div id="creations-container"></div>
   </section>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="hidden">
+    <div class="lightbox-content">
+      <button id="back-button">← Retour</button>
+      <img id="lb-image" src="" alt="">
+      <h3 id="lb-title"></h3>
+      <p id="lb-author"></p>
+      <p id="lb-date"></p>
+      <p id="lb-story"></p>
+      <p class="price" id="lb-price"></p>
+      <a id="lb-link" href="#" target="_blank">Découvrir l’artiste</a>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
