@@ -7,9 +7,20 @@ const checkbox = document.getElementById('forSale');
 const priceInput = document.getElementById('price');
 const searchBar = document.getElementById('search-bar');
 
+// Lightbox elements
+const lightbox = document.getElementById('lightbox');
+const lbImage = document.getElementById('lightbox-image');
+const lbTitle = document.getElementById('lightbox-title');
+const lbAuthor = document.getElementById('lightbox-author');
+const lbDate = document.getElementById('lightbox-date');
+const lbStory = document.getElementById('lightbox-story');
+const lbPrice = document.getElementById('lightbox-price');
+const lbLink = document.getElementById('lightbox-link');
+const lbClose = document.getElementById('close-lightbox');
+
 let creations = JSON.parse(localStorage.getItem('creations')) || [];
 
-// ✅ afficher/masquer le formulaire
+// Afficher/masquer le formulaire
 function toggleForm() {
   formSection.classList.toggle('hidden');
   window.location.hash = "#form-section";
@@ -17,13 +28,13 @@ function toggleForm() {
 revealBtn.addEventListener('click', toggleForm);
 showFormNav.addEventListener('click', toggleForm);
 
-// ✅ activer le champ prix si "à vendre" est coché
+// Activer le champ prix si "à vendre" est coché
 checkbox.addEventListener('change', () => {
   priceInput.disabled = !checkbox.checked;
   if (!checkbox.checked) priceInput.value = "";
 });
 
-// ✅ afficher les créations
+// Afficher les créations
 function displayCreations(filtered = creations) {
   container.innerHTML = '';
   if (filtered.length === 0) {
@@ -31,7 +42,7 @@ function displayCreations(filtered = creations) {
     return;
   }
 
-  filtered.forEach((item) => {
+  filtered.forEach((item, index) => {
     const card = document.createElement('div');
     card.classList.add('creation-card');
     card.innerHTML = `
@@ -39,31 +50,54 @@ function displayCreations(filtered = creations) {
       <h3>${item.title}</h3>
       <p>${item.story}</p>
       ${item.forSale ? `<p class="price">À vendre : ${item.price} €</p>` : ''}
-      ${item.link ? `<a href="${item.link}" target="_blank">Découvrir l’artiste</a>` : ''}
     `;
     container.appendChild(card);
+
+    // Clic sur la création pour ouvrir le lightbox
+    card.addEventListener('click', () => {
+      lbImage.src = item.image;
+      lbTitle.textContent = item.title;
+      lbAuthor.textContent = "Auteur : " + item.author;
+      lbDate.textContent = "Date : " + item.date;
+      lbStory.textContent = item.story;
+      lbPrice.textContent = item.forSale ? "Prix : " + item.price + " €" : "";
+      lbLink.href = item.link || "#";
+      lbLink.style.display = item.link ? "inline-block" : "none";
+
+      lightbox.classList.add('active');
+    });
   });
 }
 
-// ✅ ajout d’une création
+// Ajouter une création
 form.addEventListener('submit', (e) => {
   e.preventDefault();
-  const newCreation = {
-    title: form.title.value,
-    story: form.story.value,
-    image: form.image.value,
-    link: form.link.value,
-    forSale: checkbox.checked,
-    price: checkbox.checked ? form.price.value : null
+
+  const file = document.getElementById('imageFile').files[0];
+  if (!file) return alert("Veuillez sélectionner une image.");
+
+  const reader = new FileReader();
+  reader.onload = function(event) {
+    const newCreation = {
+      title: form.title.value,
+      author: form.author.value,
+      date: form.date.value,
+      story: form.story.value,
+      image: event.target.result, // image en base64
+      link: form.link.value,
+      forSale: checkbox.checked,
+      price: checkbox.checked ? form.price.value : null
+    };
+    creations.push(newCreation);
+    localStorage.setItem('creations', JSON.stringify(creations));
+    form.reset();
+    priceInput.disabled = true;
+    displayCreations();
   };
-  creations.push(newCreation);
-  localStorage.setItem('creations', JSON.stringify(creations));
-  form.reset();
-  priceInput.disabled = true;
-  displayCreations();
+  reader.readAsDataURL(file);
 });
 
-// ✅ recherche en direct
+// Recherche en direct
 searchBar.addEventListener('input', () => {
   const term = searchBar.value.toLowerCase();
   const filtered = creations.filter(c =>
@@ -71,6 +105,16 @@ searchBar.addEventListener('input', () => {
     c.story.toLowerCase().includes(term)
   );
   displayCreations(filtered);
+});
+
+// Fermer le lightbox
+lbClose.addEventListener('click', () => {
+  lightbox.classList.remove('active');
+});
+
+// Fermer si clic en dehors du contenu
+lightbox.addEventListener('click', (e) => {
+  if (e.target === lightbox) lightbox.classList.remove('active');
 });
 
 displayCreations();
