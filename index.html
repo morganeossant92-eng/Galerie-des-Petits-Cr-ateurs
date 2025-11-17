@@ -69,6 +69,8 @@
     <p id="lb-story"></p>
     <p class="price" id="lb-price"></p>
     <a id="lb-link" href="#" target="_blank"></a>
+    <button id="edit-post-btn" class="hidden">Éditer</button>
+    <button id="delete-post-btn" class="hidden">Supprimer</button>
   </div>
 </div>
 
@@ -88,13 +90,34 @@
 <!-- SECTION PROFIL -->
 <section id="profile-section" class="hidden">
   <div class="profile-header">
-    <img src="https://via.placeholder.com/150" alt="Photo profil">
-    <h2 id="profile-name"></h2>
-    <button id="subscribe-btn">S'abonner (0)</button>
+    <img id="profile-pic" src="https://via.placeholder.com/150" alt="Photo profil">
+    <div class="profile-info">
+      <h2 id="profile-name"></h2>
+      <p id="profile-bio">Bio de l’utilisateur...</p>
+      <button id="edit-profile-btn">Éditer le profil</button>
+      <button id="subscribe-btn">S'abonner (0)</button>
+    </div>
   </div>
-  <div class="profile-gallery" id="profile-gallery">
-    <!-- Les créations de l'utilisateur apparaîtront ici -->
+
+  <div class="profile-nav">
+    <button class="nav-btn active" data-section="posts">Publications</button>
+    <button class="nav-btn" data-section="liked">Œuvres aimées</button>
   </div>
-  <button id="back-home">Retour</button>
+
+  <div id="profile-gallery" class="profile-gallery"></div>
+
+  <div id="edit-profile-form" class="hidden">
+    <label>Nom :</label><input type="text" id="edit-name">
+    <label>Bio :</label><textarea id="edit-bio" rows="3"></textarea>
+    <label>Photo :</label><input type="file" id="edit-pic">
+    <button id="save-profile" class="btn-main">Enregistrer</button>
+    <button id="cancel-edit" class="btn-main">Annuler</button>
+  </div>
+
+  <button id="back-home">← Retour</button>
 </section>
+
+<script src="script.js"></script>
+</body>
+</html>
 
