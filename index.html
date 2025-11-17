@@ -18,65 +18,65 @@
     </nav>
   </header>
 
-  <section id="about">
-    <div class="intro">
-      <div class="intro-left">
-        <img src="https://raw.githubusercontent.com/morganeossant92-eng/Galerie-des-Petits-Cr-ateurs/refs/heads/main/La%20place%20du%20matin.jpeg" alt="Exemple œuvre">
+  <main>
+    <section id="about">
+      <div class="intro">
+        <div class="intro-left">
+          <img src="https://raw.githubusercontent.com/morganeossant92-eng/Galerie-des-Petits-Cr-ateurs/refs/heads/main/La%20place%20du%20matin.jpeg" alt="Exemple œuvre">
+        </div>
+        <div class="intro-right">
+          <h2>Bienvenue dans la Galerie des Petits Créateurs</h2>
+          <p>
+            Ici, chaque artiste – petit ou grand – peut exposer librement ses créations.  
+            Notre objectif est de mettre en lumière la créativité, le partage et le talent de chacun.
+          </p>
+          <p>
+            Découvrez les œuvres publiées ou proposez la vôtre grâce au formulaire de soumission.
+          </p>
+          <a href="#form-section" id="btn-reveal-form" class="btn-main">Soumettre une œuvre</a>
+        </div>
       </div>
-      <div class="intro-right">
-        <h2>Bienvenue dans la Galerie des Petits Créateurs</h2>
-        <p>
-          Ici, chaque artiste – petit ou grand – peut exposer librement ses créations.  
-          Notre objectif est de mettre en lumière la créativité, le partage et le talent de chacun.  
-          Que vous soyez peintre, bricoleur ou rêveur, cette galerie est faite pour vous !
-        </p>
-        <p>
-          Vous pouvez découvrir les œuvres déjà publiées, soutenir les artistes indépendants,  
-          ou même proposer la vôtre grâce au formulaire de soumission.
-        </p>
-        <a href="#form-section" id="btn-reveal-form" class="btn-main">Soumettre une œuvre</a>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="form-section" class="hidden">
-    <h2>Soumettre une nouvelle œuvre</h2>
-    <form id="creation-form">
-      <label>Titre de l’œuvre :</label>
-      <input type="text" name="title" required>
+    <section id="form-section" class="hidden">
+      <h2>Soumettre une nouvelle œuvre</h2>
+      <form id="creation-form">
+        <label>Titre de l’œuvre :</label>
+        <input type="text" name="title" required>
 
-      <label>Nom du créateur :</label>
-      <input type="text" name="author" required>
+        <label>Nom du créateur :</label>
+        <input type="text" name="author" required>
 
-      <label>Date de création :</label>
-      <input type="date" name="date" required>
+        <label>Date de création :</label>
+        <input type="date" name="date" required>
 
-      <label>Petite histoire ou description :</label>
-      <textarea name="story" rows="3" required></textarea>
+        <label>Petite histoire ou description :</label>
+        <textarea name="story" rows="3" required></textarea>
 
-      <label>Image à uploader :</label>
-      <input type="file" name="image" id="imageFile" accept="image/*" required>
+        <label>Image à uploader :</label>
+        <input type="file" name="image" id="imageFile" accept="image/*" required>
 
-      <label>Lien vers votre profil ou site :</label>
-      <input type="url" name="link" placeholder="Facultatif">
+        <label>Lien vers votre profil ou site :</label>
+        <input type="url" name="link" placeholder="Facultatif">
 
-      <label><input type="checkbox" id="forSale"> Œuvre à vendre</label>
+        <label><input type="checkbox" id="forSale"> Œuvre à vendre</label>
 
-      <label>Prix (€) :</label>
-      <input type="number" id="price" name="price" disabled>
+        <label>Prix (€) :</label>
+        <input type="number" id="price" name="price" disabled>
 
-      <label>Email pour contact si à vendre :</label>
-      <input type="email" name="email" id="email" placeholder="exemple@mail.com" disabled>
+        <label>Email pour contact si à vendre :</label>
+        <input type="email" name="email" id="email" placeholder="exemple@mail.com" disabled>
 
-      <button type="submit" class="btn-main">Publier</button>
-    </form>
-  </section>
+        <button type="submit" class="btn-main">Publier</button>
+      </form>
+    </section>
 
-  <section id="creations-section">
-    <h2>Œuvres publiées</h2>
-    <input type="text" id="search-bar" placeholder="🔍 Rechercher une œuvre...">
-    <div id="creations-container"></div>
-  </section>
+    <section id="creations-section">
+      <h2>Œuvres publiées</h2>
+      <input type="text" id="search-bar" placeholder="🔍 Rechercher une œuvre...">
+      <div id="creations-container"></div>
+    </section>
+  </main>
 
   <!-- Lightbox -->
   <div id="lightbox" class="hidden">
