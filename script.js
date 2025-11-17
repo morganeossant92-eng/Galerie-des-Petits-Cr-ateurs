@@ -9,7 +9,6 @@ const emailInput = document.getElementById('email');
 const searchBar = document.getElementById('search-bar');
 const imageFileInput = document.getElementById('imageFile');
 
-// Lightbox elements
 const lightbox = document.getElementById('lightbox');
 const lbImage = document.getElementById('lb-image');
 const lbTitle = document.getElementById('lb-title');
@@ -30,7 +29,7 @@ function toggleForm() {
 revealBtn.addEventListener('click', toggleForm);
 showFormNav.addEventListener('click', toggleForm);
 
-// Activer prix et email si "à vendre" est coché
+// Activer prix et email
 checkbox.addEventListener('change', () => {
   priceInput.disabled = !checkbox.checked;
   emailInput.disabled = !checkbox.checked;
@@ -111,6 +110,7 @@ function openLightbox(item) {
   lbDate.textContent = "Date : " + item.date;
   lbStory.textContent = item.story;
   lbPrice.textContent = item.forSale ? "À vendre : " + item.price + " €" : "";
+
   if(item.forSale && item.email) {
     lbLink.style.display = "inline-block";
     lbLink.textContent = "Contacter le créateur";
@@ -125,9 +125,12 @@ function openLightbox(item) {
   lightbox.classList.remove('hidden');
 }
 
-// Retour lightbox
-backButton.addEventListener('click', () => {
-  lightbox.classList.add('hidden');
+// Fermer lightbox
+backButton.addEventListener('click', () => lightbox.classList.add('hidden'));
+
+// Fermer lightbox en cliquant à l'extérieur
+lightbox.addEventListener('click', e => {
+  if(e.target === lightbox) lightbox.classList.add('hidden');
 });
 
 displayCreations();
