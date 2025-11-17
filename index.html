@@ -7,91 +7,94 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <h1>🎨 Galerie des Petits Créateurs</h1>
-    <nav>
-      <ul>
-        <li><a href="#about">Accueil</a></li>
-        <li><a href="#form-section" id="show-form">Soumettre une œuvre</a></li>
-        <li><a href="#creations-section">Œuvres publiées</a></li>
-      </ul>
-    </nav>
-  </header>
 
-  <main>
-    <section id="about">
-      <div class="intro">
-        <div class="intro-left">
-          <img src="https://raw.githubusercontent.com/morganeossant92-eng/Galerie-des-Petits-Cr-ateurs/refs/heads/main/La%20place%20du%20matin.jpeg" alt="Exemple œuvre">
-        </div>
-        <div class="intro-right">
-          <h2>Bienvenue dans la Galerie des Petits Créateurs</h2>
-          <p>
-            Ici, chaque artiste – petit ou grand – peut exposer librement ses créations.  
-            Notre objectif est de mettre en lumière la créativité, le partage et le talent de chacun.
-          </p>
-          <p>
-            Découvrez les œuvres publiées ou proposez la vôtre grâce au formulaire de soumission.
-          </p>
-          <a href="#form-section" id="btn-reveal-form" class="btn-main">Soumettre une œuvre</a>
-        </div>
-      </div>
-    </section>
+<header>
+  <h1>🎨 Galerie des Petits Créateurs</h1>
+  <nav>
+    <ul>
+      <li><a href="#about">Accueil</a></li>
+      <li><a href="#form-section" id="show-form">Soumettre une œuvre</a></li>
+      <li><a href="#creations-section">Œuvres publiées</a></li>
+      <li><button id="login-btn">Se connecter</button></li>
+    </ul>
+  </nav>
+</header>
 
-    <section id="form-section" class="hidden">
-      <h2>Soumettre une nouvelle œuvre</h2>
-      <form id="creation-form">
-        <label>Titre de l’œuvre :</label>
-        <input type="text" name="title" required>
-
-        <label>Nom du créateur :</label>
-        <input type="text" name="author" required>
-
-        <label>Date de création :</label>
-        <input type="date" name="date" required>
-
-        <label>Petite histoire ou description :</label>
-        <textarea name="story" rows="3" required></textarea>
-
-        <label>Image à uploader :</label>
-        <input type="file" name="image" id="imageFile" accept="image/*" required>
-
-        <label>Lien vers votre profil ou site :</label>
-        <input type="url" name="link" placeholder="Facultatif">
-
-        <label><input type="checkbox" id="forSale"> Œuvre à vendre</label>
-
-        <label>Prix (€) :</label>
-        <input type="number" id="price" name="price" disabled>
-
-        <label>Email pour contact si à vendre :</label>
-        <input type="email" name="email" id="email" placeholder="exemple@mail.com" disabled>
-
-        <button type="submit" class="btn-main">Publier</button>
-      </form>
-    </section>
-
-    <section id="creations-section">
-      <h2>Œuvres publiées</h2>
-      <input type="text" id="search-bar" placeholder="🔍 Rechercher une œuvre...">
-      <div id="creations-container"></div>
-    </section>
-  </main>
-
-  <!-- Lightbox -->
-  <div id="lightbox" class="hidden">
-    <div class="lightbox-content">
-      <button id="back-button">← Retour</button>
-      <img id="lb-image" src="" alt="">
-      <h3 id="lb-title"></h3>
-      <p id="lb-author"></p>
-      <p id="lb-date"></p>
-      <p id="lb-story"></p>
-      <p class="price" id="lb-price"></p>
-      <a id="lb-link" href="#" target="_blank"></a>
+<!-- SECTION ACCUEIL -->
+<section id="about">
+  <div class="intro">
+    <div class="intro-left">
+      <img src="https://raw.githubusercontent.com/morganeossant92-eng/Galerie-des-Petits-Cr-ateurs/refs/heads/main/La%20place%20du%20matin.jpeg" alt="Exemple œuvre">
+    </div>
+    <div class="intro-right">
+      <h2>Bienvenue dans la Galerie des Petits Créateurs</h2>
+      <p>Ici, chaque artiste – petit ou grand – peut exposer librement ses créations.</p>
+      <a href="#form-section" id="btn-reveal-form" class="btn-main">Soumettre une œuvre</a>
     </div>
   </div>
+</section>
 
-  <script src="script.js"></script>
-</body>
-</html>
+<!-- SECTION FORMULAIRE -->
+<section id="form-section" class="hidden">
+  <h2>Soumettre une nouvelle œuvre</h2>
+  <form id="creation-form">
+    <label>Titre :</label><input type="text" name="title" required>
+    <label>Auteur :</label><input type="text" name="author" required>
+    <label>Date :</label><input type="date" name="date" required>
+    <label>Description :</label><textarea name="story" rows="3" required></textarea>
+    <label>Image :</label><input type="file" name="image" id="imageFile" accept="image/*" required>
+    <label>Lien :</label><input type="url" name="link" placeholder="Facultatif">
+    <label><input type="checkbox" id="forSale"> Œuvre à vendre</label>
+    <label>Prix (€) :</label><input type="number" id="price" name="price" disabled>
+    <label>Email :</label><input type="email" name="email" id="email" disabled>
+    <button type="submit" class="btn-main">Publier</button>
+  </form>
+</section>
+
+<!-- SECTION GALERIE -->
+<section id="creations-section">
+  <h2>Œuvres publiées</h2>
+  <input type="text" id="search-bar" placeholder="🔍 Rechercher une œuvre...">
+  <div id="creations-container"></div>
+</section>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" class="hidden">
+  <div class="lightbox-content">
+    <button id="back-button">← Retour</button>
+    <img id="lb-image" src="" alt="">
+    <h3 id="lb-title"></h3>
+    <p id="lb-author"></p>
+    <p id="lb-date"></p>
+    <p id="lb-story"></p>
+    <p class="price" id="lb-price"></p>
+    <a id="lb-link" href="#" target="_blank"></a>
+  </div>
+</div>
+
+<!-- MODAL CONNEXION / INSCRIPTION -->
+<div id="login-modal" class="hidden">
+  <div id="login-content">
+    <button id="login-close">X</button>
+    <form id="login-form">
+      <label>Nom d’utilisateur :</label><input type="text" name="username" required>
+      <label>Mot de passe :</label><input type="password" name="password" required>
+      <button type="submit" class="btn-main">Se connecter</button>
+      <p>Pas de compte ? <span id="signup-link" style="cursor:pointer;color:#7b3f29;">Créer un compte</span></p>
+    </form>
+  </div>
+</div>
+
+<!-- SECTION PROFIL -->
+<section id="profile-section" class="hidden">
+  <div class="profile-header">
+    <img src="https://via.placeholder.com/150" alt="Photo profil">
+    <h2 id="profile-name"></h2>
+    <button id="subscribe-btn">S'abonner (0)</button>
+  </div>
+  <div class="profile-gallery" id="profile-gallery">
+    <!-- Les créations de l'utilisateur apparaîtront ici -->
+  </div>
+  <button id="back-home">Retour</button>
+</section>
+
