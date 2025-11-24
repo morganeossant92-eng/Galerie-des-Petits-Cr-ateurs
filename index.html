@@ -20,7 +20,6 @@
   </nav>
 </header>
 
-<!-- ACCUEIL -->
 <section id="about">
   <div class="intro">
     <div class="intro-left">
@@ -34,7 +33,6 @@
   </div>
 </section>
 
-<!-- FORMULAIRE -->
 <section id="form-section" class="hidden">
   <h2>Soumettre une nouvelle œuvre</h2>
   <form id="creation-form">
@@ -51,14 +49,12 @@
   </form>
 </section>
 
-<!-- GALERIE -->
 <section id="creations-section">
   <h2>Œuvres publiées</h2>
   <input type="text" id="search-bar" placeholder="🔍 Rechercher une œuvre...">
   <div id="creations-container"></div>
 </section>
 
-<!-- LIGHTBOX -->
 <div id="lightbox" class="hidden">
   <div class="lightbox-content">
     <button id="back-button">← Retour</button>
@@ -72,7 +68,6 @@
   </div>
 </div>
 
-<!-- MODAL CONNEXION -->
 <div id="login-modal" class="hidden">
   <div id="login-content">
     <button id="login-close">X</button>
@@ -85,49 +80,6 @@
   </div>
 </div>
 
-<!-- EDIT MODAL (édition complète + suppression) -->
-<div id="edit-modal" class="hidden">
-  <div id="edit-content">
-    <button id="edit-close">X</button>
-
-    <h2>Modifier l’œuvre</h2>
-
-    <form id="edit-form">
-      <label>Titre :</label>
-      <input type="text" id="edit-title" required>
-
-      <label>Auteur :</label>
-      <input type="text" id="edit-author" required>
-
-      <label>Description :</label>
-      <textarea id="edit-story" rows="3" required></textarea>
-
-      <label>Date :</label>
-      <input type="date" id="edit-date" required>
-
-      <label>Lien :</label>
-      <input type="url" id="edit-link">
-
-      <label><input type="checkbox" id="edit-forSale"> À vendre</label>
-
-      <label>Prix (€) :</label>
-      <input type="number" id="edit-price" disabled>
-
-      <label>Email :</label>
-      <input type="email" id="edit-email" disabled>
-
-      <label>Nouvelle image (optionnel) :</label>
-      <input type="file" id="edit-image" accept="image/*">
-
-      <div class="edit-actions">
-        <button class="btn-main" type="submit">Enregistrer</button>
-        <button id="edit-delete" type="button" class="btn-delete">Supprimer l’œuvre</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<!-- PROFIL -->
 <section id="profile-section" class="hidden">
   <div class="profile-header">
     <img src="https://via.placeholder.com/150" alt="Photo profil" id="profile-photo">
