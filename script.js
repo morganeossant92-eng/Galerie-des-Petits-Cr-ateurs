@@ -29,7 +29,7 @@ function toggleForm() {
         return;
     }
     formSectionMain.classList.toggle('hidden');
-    formEl.author.value = currentUser; // Remplir automatiquement l'auteur
+    formEl.author.value = currentUser;
     window.location.hash = "#form-section";
 }
 
@@ -70,7 +70,6 @@ function displayCreations(filtered = creations) {
             </div>
         `;
 
-        // Bouton like
         const likeBtn = document.createElement('button');
         likeBtn.classList.add('like-btn');
         if (item.liked) likeBtn.classList.add('liked');
@@ -83,20 +82,14 @@ function displayCreations(filtered = creations) {
         });
         card.appendChild(likeBtn);
 
-        // Lightbox au clic sur image
         card.querySelector('img').addEventListener('click', () => openLightbox(item));
 
-        // Édition
         card.querySelector('.edit-post').addEventListener('click', e => {
             e.stopPropagation();
-            if (item.author === currentUser) {
-                openEditModal(item);
-            } else {
-                alert("Vous pouvez éditer seulement vos publications");
-            }
+            if (item.author === currentUser) openEditModal(item);
+            else alert("Vous pouvez éditer seulement vos publications");
         });
 
-        // Suppression
         card.querySelector('.delete-post').addEventListener('click', e => {
             e.stopPropagation();
             if (item.author === currentUser) {
@@ -104,9 +97,7 @@ function displayCreations(filtered = creations) {
                 localStorage.setItem('creations', JSON.stringify(creations));
                 displayCreations();
                 showProfile();
-            } else {
-                alert("Vous pouvez supprimer seulement vos publications");
-            }
+            } else alert("Vous pouvez supprimer seulement vos publications");
         });
 
         container.appendChild(card);
@@ -172,9 +163,8 @@ function openLightbox(item) {
         lbLink.style.display = "inline-block";
         lbLink.textContent = "Découvrir l’artiste";
         lbLink.href = item.link;
-    } else {
-        lbLink.style.display = "none";
-    }
+    } else lbLink.style.display = "none";
+
     lightbox.classList.remove('hidden');
 }
 
@@ -198,21 +188,16 @@ const editUsername = document.getElementById('edit-username');
 const editBio = document.getElementById('edit-bio');
 const editPhoto = document.getElementById('edit-photo');
 const saveProfileBtn = document.getElementById('save-profile-btn');
-const subscribeBtn = document.getElementById('subscribe-btn');
 
 const aboutSection = document.getElementById('about');
 const creationsSection = document.getElementById('creations-section');
 
 let currentUser = null;
-let subscribers = 0;
 
 // Connexion / profil
 loginBtn.addEventListener('click', () => {
-    if (!currentUser) {
-        loginModal.classList.remove('hidden');
-    } else {
-        showProfile();
-    }
+    if (!currentUser) loginModal.classList.remove('hidden');
+    else showProfile();
 });
 loginClose.addEventListener('click', () => loginModal.classList.add('hidden'));
 
@@ -291,7 +276,6 @@ function showProfile() {
         });
     }
 
-    // Œuvres likées
     const profileLiked = document.getElementById('profile-liked');
     profileLiked.innerHTML = '';
     const likedCreations = creations.filter(c => c.liked);
@@ -336,12 +320,6 @@ saveProfileBtn.addEventListener('click', () => {
         reader.readAsDataURL(editPhoto.files[0]);
     }
     editForm.classList.add('hidden');
-});
-
-// S'abonner
-subscribeBtn.addEventListener('click', () => {
-    subscribers++;
-    subscribeBtn.textContent = `S'abonner (${subscribers})`;
 });
 
 // ----- EDITION COMPLET DES CREATIONS -----
@@ -406,9 +384,7 @@ function openEditModal(item) {
                 saveEdits();
             };
             reader.readAsDataURL(fileInput.files[0]);
-        } else {
-            saveEdits();
-        }
+        } else saveEdits();
 
         function saveEdits() {
             item.title = editFormInner.title.value;
