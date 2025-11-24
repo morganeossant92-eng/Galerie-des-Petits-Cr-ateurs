@@ -168,7 +168,6 @@ const editUsername=document.getElementById('edit-username');
 const editBio=document.getElementById('edit-bio');
 const editPhoto=document.getElementById('edit-photo');
 const saveProfileBtn=document.getElementById('save-profile-btn');
-const subscribeBtn=document.getElementById('subscribe-btn');
 
 const aboutSection=document.getElementById('about');
 const creationsSection=document.getElementById('creations-section');
