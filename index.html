@@ -1,109 +1,146 @@
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Galerie des Petits Créateurs</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Galerie des Petits Créateurs</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<header>
-  <h1>🎨 Galerie des Petits Créateurs</h1>
-  <nav>
-    <ul>
-      <li><a href="#about">Accueil</a></li>
-      <li><a href="#form-section" id="show-form">Soumettre une œuvre</a></li>
-      <li><a href="#creations-section">Œuvres publiées</a></li>
-      <li><button id="login-btn">Se connecter</button></li>
-    </ul>
-  </nav>
-</header>
+    <!-- HEADER -->
+    <header>
+        <h1>🎨 Galerie des Petits Créateurs</h1>
+        <nav>
+            <ul>
+                <li><a href="#about">Accueil</a></li>
+                <li><a href="#form-section" id="show-form">Soumettre une œuvre</a></li>
+                <li><a href="#creations-section">Œuvres publiées</a></li>
+                <li><button id="login-btn">Se connecter</button></li>
+            </ul>
+        </nav>
+    </header>
 
-<!-- ACCUEIL -->
-<section id="about">
-  <div class="intro">
-    <div class="intro-left">
-      <img src="https://raw.githubusercontent.com/morganeossant92-eng/Galerie-des-Petits-Cr-ateurs/refs/heads/main/La%20place%20du%20matin.jpeg" alt="Exemple œuvre">
+    <!-- ACCUEIL -->
+    <section id="about">
+        <div class="intro">
+            <div class="intro-left">
+                <img src="https://raw.githubusercontent.com/morganeossant92-eng/Galerie-des-Petits-Cr-ateurs/refs/heads/main/La%20place%20du%20matin.jpeg" alt="Exemple œuvre">
+            </div>
+            <div class="intro-right">
+                <h2>Bienvenue dans la Galerie des Petits Créateurs</h2>
+                <p>Ici, chaque artiste peut exposer librement ses créations.</p>
+                <a href="#form-section" id="btn-reveal-form" class="btn-main">Soumettre une œuvre</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FORMULAIRE -->
+    <section id="form-section" class="hidden">
+        <h2>Soumettre une nouvelle œuvre</h2>
+        <form id="creation-form">
+            <label>Titre :</label>
+            <input type="text" name="title" required>
+
+            <label>Auteur :</label>
+            <input type="text" name="author" required>
+
+            <label>Date :</label>
+            <input type="date" name="date" required>
+
+            <label>Description :</label>
+            <textarea name="story" rows="3" required></textarea>
+
+            <label>Image :</label>
+            <input type="file" name="image" id="imageFile" accept="image/*" required>
+
+            <label>Lien :</label>
+            <input type="url" name="link" placeholder="Facultatif">
+
+            <label><input type="checkbox" id="forSale"> Œuvre à vendre</label>
+
+            <label>Prix (€) :</label>
+            <input type="number" id="price" name="price" disabled>
+
+            <label>Email :</label>
+            <input type="email" name="email" id="email" disabled>
+
+            <button type="submit" class="btn-main">Publier</button>
+        </form>
+    </section>
+
+    <!-- GALERIE -->
+    <section id="creations-section">
+        <h2>Œuvres publiées</h2>
+        <input type="text" id="search-bar" placeholder="🔍 Rechercher une œuvre...">
+        <div id="creations-container"></div>
+    </section>
+
+    <!-- LIGHTBOX -->
+    <div id="lightbox" class="hidden">
+        <div class="lightbox-content">
+            <button id="back-button">← Retour</button>
+            <img id="lb-image" src="" alt="">
+            <h3 id="lb-title"></h3>
+            <p id="lb-author"></p>
+            <p id="lb-date"></p>
+            <p id="lb-story"></p>
+            <p class="price" id="lb-price"></p>
+            <a id="lb-link" href="#" target="_blank"></a>
+        </div>
     </div>
-    <div class="intro-right">
-      <h2>Bienvenue dans la Galerie des Petits Créateurs</h2>
-      <p>Ici, chaque artiste peut exposer librement ses créations.</p>
-      <a href="#form-section" id="btn-reveal-form" class="btn-main">Soumettre une œuvre</a>
+
+    <!-- MODAL CONNEXION -->
+    <div id="login-modal" class="hidden">
+        <div id="login-content">
+            <button id="login-close">X</button>
+            <form id="login-form">
+                <label>Nom d’utilisateur :</label>
+                <input type="text" name="username" required>
+
+                <label>Mot de passe :</label>
+                <input type="password" name="password" required>
+
+                <button type="submit" class="btn-main">Se connecter</button>
+                <p>Pas de compte ? <span id="signup-link" style="cursor:pointer;color:#7b3f29;">Créer un compte</span></p>
+            </form>
+        </div>
     </div>
-  </div>
-</section>
 
-<!-- FORMULAIRE -->
-<section id="form-section" class="hidden">
-  <h2>Soumettre une nouvelle œuvre</h2>
-  <form id="creation-form">
-    <label>Titre :</label><input type="text" name="title" required>
-    <label>Auteur :</label><input type="text" name="author" required>
-    <label>Date :</label><input type="date" name="date" required>
-    <label>Description :</label><textarea name="story" rows="3" required></textarea>
-    <label>Image :</label><input type="file" name="image" id="imageFile" accept="image/*" required>
-    <label>Lien :</label><input type="url" name="link" placeholder="Facultatif">
-    <label><input type="checkbox" id="forSale"> Œuvre à vendre</label>
-    <label>Prix (€) :</label><input type="number" id="price" name="price" disabled>
-    <label>Email :</label><input type="email" name="email" id="email" disabled>
-    <button type="submit" class="btn-main">Publier</button>
-  </form>
-</section>
+    <!-- PROFIL -->
+    <section id="profile-section" class="hidden">
+        <div class="profile-header">
+            <img src="https://via.placeholder.com/150" alt="Photo profil" id="profile-photo">
+            <h2 id="profile-name"></h2>
+            <p id="profile-bio"></p>
+            <button id="edit-btn" class="btn-main">Éditer le profil</button>
+            <button id="subscribe-btn">S'abonner (0)</button>
+        </div>
 
-<!-- GALERIE -->
-<section id="creations-section">
-  <h2>Œuvres publiées</h2>
-  <input type="text" id="search-bar" placeholder="🔍 Rechercher une œuvre...">
-  <div id="creations-container"></div>
-</section>
+        <div id="edit-profile-form" class="hidden">
+            <label>Nom :</label>
+            <input type="text" id="edit-username">
 
-<!-- LIGHTBOX -->
-<div id="lightbox" class="hidden">
-  <div class="lightbox-content">
-    <button id="back-button">← Retour</button>
-    <img id="lb-image" src="" alt="">
-    <h3 id="lb-title"></h3>
-    <p id="lb-author"></p>
-    <p id="lb-date"></p>
-    <p id="lb-story"></p>
-    <p class="price" id="lb-price"></p>
-    <a id="lb-link" href="#" target="_blank"></a>
-  </div>
-</div>
+            <label>Bio :</label>
+            <textarea id="edit-bio" rows="3"></textarea>
 
-<!-- MODAL CONNEXION -->
-<div id="login-modal" class="hidden">
-  <div id="login-content">
-    <button id="login-close">X</button>
-    <form id="login-form">
-      <label>Nom d’utilisateur :</label><input type="text" name="username" required>
-      <label>Mot de passe :</label><input type="password" name="password" required>
-      <button type="submit" class="btn-main">Se connecter</button>
-      <p>Pas de compte ? <span id="signup-link" style="cursor:pointer;color:#7b3f29;">Créer un compte</span></p>
-    </form>
-  </div>
-</div>
+            <label>Photo :</label>
+            <input type="file" id="edit-photo" accept="image/*">
 
-<!-- PROFIL -->
-<section id="profile-section" class="hidden">
-  <div id="edit-profile-form" class="hidden">
-    <label>Nom :</label><input type="text" id="edit-username">
-    <label>Bio :</label><textarea id="edit-bio" rows="3"></textarea>
-    <label>Photo :</label><input type="file" id="edit-photo" accept="image/*">
-    <button id="save-profile-btn" class="btn-main">Enregistrer</button>
-  </div>
+            <button id="save-profile-btn" class="btn-main">Enregistrer</button>
+        </div>
 
-  <div class="profile-separator"></div>
+        <div class="profile-separator"></div>
 
-  <h3>Vos œuvres</h3>
-  <div class="profile-gallery" id="profile-gallery"></div>
+        <h3>Vos œuvres</h3>
+        <div class="profile-gallery" id="profile-gallery"></div>
 
-  <h3>Œuvres likées</h3>
-  <div class="profile-liked" id="profile-liked"></div>
+        <h3>Œuvres likées</h3>
+        <div class="profile-liked" id="profile-liked"></div>
 
-  <button id="back-home" class="btn-main">Retour</button>
-</section>
+        <button id="back-home" class="btn-main">Retour</button>
+    </section>
 
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
