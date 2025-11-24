@@ -297,13 +297,6 @@ saveProfileBtn.addEventListener('click', ()=>{
   }
   editForm.classList.add('hidden');
 });
-
-// S'abonner
-subscribeBtn.addEventListener('click', ()=>{
-  subscribers++;
-  subscribeBtn.textContent=`S'abonner (${subscribers})`;
-});
-
 // ----- EDITION COMPLET DES CREATIONS -----
 function openEditModal(item){
   const modal = document.createElement('div');
