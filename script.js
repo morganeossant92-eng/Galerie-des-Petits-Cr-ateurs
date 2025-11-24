@@ -24,7 +24,9 @@ let creations = JSON.parse(localStorage.getItem('creations')) || [];
 
 // Toggle formulaire
 function toggleForm() {
+  if(!currentUser){ alert("Vous devez être connecté pour publier une œuvre"); return; }
   formSectionMain.classList.toggle('hidden');
+  formEl.author.value = currentUser; // Remplir automatiquement l'auteur
   window.location.hash = "#form-section";
 }
 revealBtn.addEventListener('click', toggleForm);
@@ -60,7 +62,7 @@ function displayCreations(filtered=creations){
     card.querySelector('.edit-post').addEventListener('click', (e)=>{
       e.stopPropagation();
       if(item.author===currentUser){
-        editCreation(item);
+        openEditModal(item);
       } else { alert("Vous pouvez éditer seulement vos publications"); }
     });
     // Suppression
@@ -80,13 +82,14 @@ function displayCreations(filtered=creations){
 // Soumettre création
 formEl.addEventListener('submit', e=>{
   e.preventDefault();
+  if(!currentUser){ alert("Vous devez être connecté pour publier une œuvre"); return; }
   const file=imageFileInput.files[0];
   if(!file) return alert("Sélectionnez une image");
   const reader=new FileReader();
   reader.onload=function(event){
     const newCreation={
       title:formEl.title.value,
-      author:formEl.author.value,
+      author:currentUser,
       date:formEl.date.value,
       story:formEl.story.value,
       image:event.target.result,
@@ -190,7 +193,6 @@ function showProfile(){
   profileSection.classList.remove('hidden');
   profileName.textContent=currentUser;
 
-  // Créations utilisateur
   const profileGallery=document.getElementById('profile-gallery');
   profileGallery.innerHTML='';
   const userCreations=creations.filter(c=>c.author===currentUser);
@@ -207,9 +209,8 @@ function showProfile(){
                     <button class="edit-post">Éditer</button>
                     <button class="delete-post">Supprimer</button>`;
     card.querySelector('img').addEventListener('click',()=>openLightbox(item));
-    // Edition / suppression
     card.querySelector('.edit-post').addEventListener('click',(e)=>{
-      e.stopPropagation(); editCreation(item);
+      e.stopPropagation(); openEditModal(item);
     });
     card.querySelector('.delete-post').addEventListener('click',(e)=>{
       e.stopPropagation();
@@ -254,21 +255,86 @@ subscribeBtn.addEventListener('click', ()=>{
   subscribeBtn.textContent=`S'abonner (${subscribers})`;
 });
 
-// Editer création
-function editCreation(item){
-  const title=prompt("Titre",item.title);
-  const story=prompt("Description",item.story);
-  const date=prompt("Date",item.date);
-  const price=item.forSale?prompt("Prix",item.price):null;
-  if(title && story && date){
-    item.title=title;
-    item.story=story;
-    item.date=date;
-    if(item.forSale) item.price=price;
-    localStorage.setItem('creations',JSON.stringify(creations));
-    displayCreations();
-    showProfile();
-  }
+// ----- EDITION COMPLET DES CREATIONS -----
+function openEditModal(item){
+  // Création d’un formulaire temporaire
+  const modal = document.createElement('div');
+  modal.classList.add('hidden');
+  modal.style.position='fixed';
+  modal.style.top='0';
+  modal.style.left='0';
+  modal.style.width='100%';
+  modal.style.height='100%';
+  modal.style.background='rgba(0,0,0,0.8)';
+  modal.style.display='flex';
+  modal.style.justifyContent='center';
+  modal.style.alignItems='center';
+  modal.style.zIndex='3000';
+  modal.innerHTML=`
+    <div style="background:#fff7ee; padding:2rem; border:2px solid #b65c41; border-radius:6px; width:350px; max-height:90%; overflow-y:auto; position:relative;">
+      <button id="close-edit" style="position:absolute;top:10px;right:10px;background:#7b3f29;color:#fff;border:none;padding:0.3rem 0.6rem;border-radius:4px;cursor:pointer;">X</button>
+      <h3>Éditer votre œuvre</h3>
+      <form id="edit-form-inner" style="display:flex; flex-direction:column; gap:0.8rem;">
+        <label>Titre :</label><input type="text" name="title" required value="${item.title}">
+        <label>Date :</label><input type="date" name="date" required value="${item.date}">
+        <label>Description :</label><textarea name="story" rows="3" required>${item.story}</textarea>
+        <label>Lien :</label><input type="url" name="link" value="${item.link}">
+        <label><input type="checkbox" name="forSale" ${item.forSale?'checked':''}> Œuvre à vendre</label>
+        <label>Prix (€) :</label><input type="number" name="price" value="${item.price || ''}">
+        <label>Email :</label><input type="email" name="email" value="${item.email || ''}">
+        <label>Image :</label><input type="file" name="image">
+        <button type="submit" class="btn-main">Enregistrer</button>
+      </form>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  modal.classList.remove('hidden');
+
+  const closeBtn = modal.querySelector('#close-edit');
+  const editFormInner = modal.querySelector('#edit-form-inner');
+  const forSaleCheck = editFormInner.querySelector('input[name="forSale"]');
+  const priceField = editFormInner.querySelector('input[name="price"]');
+  const emailField = editFormInner.querySelector('input[name="email"]');
+
+  priceField.disabled = !forSaleCheck.checked;
+  emailField.disabled = !forSaleCheck.checked;
+
+  forSaleCheck.addEventListener('change', ()=>{
+    priceField.disabled = !forSaleCheck.checked;
+    emailField.disabled = !forSaleCheck.checked;
+    if(!forSaleCheck.checked){ priceField.value=''; emailField.value=''; }
+  });
+
+  closeBtn.addEventListener('click', ()=>{
+    modal.remove();
+  });
+
+  editFormInner.addEventListener('submit', e=>{
+    e.preventDefault();
+    const fileInput = editFormInner.querySelector('input[name="image"]');
+    if(fileInput.files[0]){
+      const reader=new FileReader();
+      reader.onload=function(ev){
+        item.image = ev.target.result;
+        saveEdits();
+      };
+      reader.readAsDataURL(fileInput.files[0]);
+    } else { saveEdits(); }
+
+    function saveEdits(){
+      item.title = editFormInner.title.value;
+      item.date = editFormInner.date.value;
+      item.story = editFormInner.story.value;
+      item.link = editFormInner.link.value;
+      item.forSale = forSaleCheck.checked;
+      item.price = forSaleCheck.checked ? priceField.value : null;
+      item.email = forSaleCheck.checked ? emailField.value : null;
+      localStorage.setItem('creations', JSON.stringify(creations));
+      displayCreations();
+      showProfile();
+      modal.remove();
+    }
+  });
 }
 
 displayCreations();
