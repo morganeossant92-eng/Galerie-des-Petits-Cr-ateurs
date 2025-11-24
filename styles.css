@@ -26,12 +26,46 @@ nav a:hover, #login-btn:hover { color:#ffd7b5; }
 #creations-section { padding:2rem 1rem; border-top:4px double #b65c41; text-align:center; }
 #search-bar { margin:1rem 0 2rem 0; padding:0.6rem; border-radius:6px; border:2px solid #b65c41; width:80%; max-width:400px; font-family:inherit; }
 #creations-container { display:flex; flex-wrap:wrap; gap:1.5rem; justify-content:center; }
-.creation-card { background:#fff7ee; border:2px solid #b65c41; border-radius:12px; padding:1rem; width:220px; text-align:center; transition: transform 0.2s ease, box-shadow 0.2s ease; cursor:pointer; }
+.creation-card { background:#fff7ee; border:2px solid #b65c41; border-radius:12px; padding:1rem; width:220px; text-align:center; transition: transform 0.2s ease, box-shadow 0.2s ease; cursor:pointer; position:relative; }
 .creation-card:hover { transform:translateY(-5px); box-shadow:0 8px 15px rgba(0,0,0,0.2); }
 .creation-card img { width:100%; border-radius:12px; object-fit:cover; height:180px; }
 .creation-card h3 { margin:0.5rem 0 0.2rem 0; font-size:1.05rem; }
 .creation-card p { margin:0.2rem 0; font-size:0.9rem; }
 .creation-card .actions { display:flex; gap:0.5rem; justify-content:center; margin-top:0.6rem; }
+
+/* BOUTON LIKE */
+.creation-card .like-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  transition: transform 0.2s ease;
+}
+.creation-card .like-btn::before {
+  content: '♡';
+  color: #b65c41;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+.creation-card .like-btn.liked::before {
+  content: '♥';
+  color: #e63946;
+  transform: scale(1.2);
+  animation: pulse 0.3s ease;
+}
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1.2); }
+}
 
 /* LIGHTBOX */
 #lightbox { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(58,29,11,0.95); display:flex; justify-content:center; align-items:center; z-index:1000; }
@@ -64,10 +98,10 @@ nav a:hover, #login-btn:hover { color:#ffd7b5; }
 .profile-header h2 { margin:0.5rem 0; font-size:1.8rem; }
 #profile-bio { margin-bottom:1rem; }
 #edit-btn, #subscribe-btn { margin:0.3rem; }
-.profile-gallery { display:grid; grid-template-columns:repeat(auto-fill, minmax(180px,1fr)); gap:1rem; margin-top:1rem; }
-.profile-gallery .creation-card { background:#fff7ee; border:2px solid #b65c41; border-radius:12px; overflow:hidden; cursor:pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; position:relative; }
-.profile-gallery .creation-card:hover { transform:translateY(-5px); box-shadow:0 8px 15px rgba(0,0,0,0.2); }
-.profile-gallery .creation-card img { width:100%; height:250px; object-fit:cover; border-radius:12px; }
+.profile-gallery, #profile-liked { display:grid; grid-template-columns:repeat(auto-fill, minmax(180px,1fr)); gap:1rem; margin-top:1rem; }
+.profile-gallery .creation-card, #profile-liked .creation-card { background:#fff7ee; border:2px solid #b65c41; border-radius:12px; overflow:hidden; cursor:pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; position:relative; }
+.profile-gallery .creation-card:hover, #profile-liked .creation-card:hover { transform:translateY(-5px); box-shadow:0 8px 15px rgba(0,0,0,0.2); }
+.profile-gallery .creation-card img, #profile-liked .creation-card img { width:100%; height:250px; object-fit:cover; border-radius:12px; }
 
 /* TRAIT SEPARATEUR */
 .profile-separator { border-top:4px double #b65c41; margin:2rem 0; width:90%; margin-left:auto; margin-right:auto; }
